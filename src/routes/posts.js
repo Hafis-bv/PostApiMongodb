@@ -1,20 +1,18 @@
 import { Router } from "express";
-import { Post } from "../models/Post.js";
+import {
+  createPost,
+  deletePost,
+  getAllPosts,
+  getSinglePost,
+  updatePost,
+} from "../controllers/posts.js";
 
 const router = Router();
 
-router.get("/", async (req, res) => {
-  try {
-    const posts = await Post.find();
-
-    if (!posts.length) {
-      return res.status(404).json({ message: "No posts found" });
-    }
-
-    res.status(200).json(posts);
-  } catch (e) {
-    console.error(e);
-  }
-});
+router.get("/", getAllPosts);
+router.get("/:id", getSinglePost);
+router.post("/create", createPost);
+router.delete("/delete/:id", deletePost);
+router.patch("/update/:id", updatePost);
 
 export { router as postRouter };
