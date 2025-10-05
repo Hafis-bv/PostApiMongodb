@@ -3,8 +3,10 @@ import { Post } from "../models/Post.js";
 import AppError from "../utils/AppError.js";
 
 export async function getAllPosts(req, res, next) {
+  const { limit } = req.query;
+
   try {
-    const posts = await Post.find();
+    const posts = limit ? await Post.find().limit(limit) : await Post.find();
 
     if (!posts.length) {
       return next(new AppError("No posts found", 404));
